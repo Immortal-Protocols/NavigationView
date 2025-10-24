@@ -36,6 +36,14 @@ extension NavigationManager {
     static func setTransitionType(_ value: TransitionType) { if shared.transitionType != value { shared.transitionType = value }}
 }
 
+// MARK: - Getters
+public extension NavigationManager {
+    /// Returns the ID of the view currently on top of the navigation stack
+    static func getTopViewId() -> String? {
+        return shared.views.last?.id
+    }
+}
+
 // MARK: - Gesture Handlers
 extension NavigationManager {
     func gestureStarted() {
