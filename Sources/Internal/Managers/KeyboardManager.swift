@@ -27,19 +27,18 @@ extension KeyboardManager {
 
 // MARK: - Show / Hide Events
 private extension KeyboardManager {
-    func subscribeToKeyboardEvents() { Publishers.Merge(keyboardWillOpenPublisher, keyboardWillHidePublisher)
-        .sink { self.height = $0 }
-        .store(in: &subscription)
-    }
-}
-private extension KeyboardManager {
-    var keyboardWillOpenPublisher: Publishers.CompactMap<NotificationCenter.Publisher, CGFloat> { NotificationCenter.default
-        .publisher(for: UIResponder.keyboardWillShowNotification)
-        .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
-        .map { $0.height }
-    }
-    var keyboardWillHidePublisher: Publishers.Map<NotificationCenter.Publisher, CGFloat> { NotificationCenter.default
-        .publisher(for: UIResponder.keyboardWillHideNotification)
-        .map { _ in .zero }
+    func subscribeToKeyboardEvents() {
+        NotificationCenter.default
+            .publisher(for: UIResponder.keyboardWillChangeFrameNotification)
+            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
+            .map { rect -> CGFloat in
+                // If keyboard is off-screen (y >= screen height), height is zero
+                let screenHeight = UIScreen.main.bounds.height
+                return rect.origin.y >= screenHeight ? .zero : rect.height
+            }
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in self?.height = $0 }
+            .store(in: &subscription)
     }
 }
