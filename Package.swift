@@ -6,7 +6,9 @@ import PackageDescription
 let package = Package(
     name: "MijickNavigationView",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v15),
+        .macOS(.v12),
+        .macCatalyst(.v15)
     ],
     products: [
         .library(name: "MijickNavigationView", targets: ["MijickNavigationView"]),
