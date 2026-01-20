@@ -22,12 +22,17 @@ class KeyboardManager: ObservableObject {
 
 // MARK: - Hiding Keyboard
 extension KeyboardManager {
-    static func hideKeyboard() { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) }
+    static func hideKeyboard() {
+        #if canImport(UIKit)
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        #endif
+    }
 }
 
 // MARK: - Show / Hide Events
 private extension KeyboardManager {
     func subscribeToKeyboardEvents() {
+        #if canImport(UIKit)
         NotificationCenter.default
             .publisher(for: UIResponder.keyboardWillChangeFrameNotification)
             .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
@@ -40,5 +45,6 @@ private extension KeyboardManager {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.height = $0 }
             .store(in: &subscription)
+        #endif
     }
 }
