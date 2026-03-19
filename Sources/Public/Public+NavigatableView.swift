@@ -29,7 +29,7 @@ public extension NavigatableView {
 public extension NavigatableView {
     /// Pushes a new view. Stacks previous one
     @discardableResult func push(with animation: TransitionAnimation) -> some NavigatableView {
-        if let router = NavigationManager.externalRouter { router.handlePush(self, animation: animation) }
+        if let router = NavigationManager.externalRouter { DispatchQueue.main.async { router.handlePush(self, animation: animation) } }
         else { NavigationManager.performOperation(.insert(self, animation)) }
         return self
     }

@@ -14,7 +14,7 @@ import SwiftUI
 public extension View {
     /// Removes the presented view from the stack
     func pop() {
-        if let router = NavigationManager.externalRouter { router.handlePop() }
+        if let router = NavigationManager.externalRouter { DispatchQueue.main.async { router.handlePop() } }
         else { NavigationManager.pop() }
     }
 
@@ -23,7 +23,7 @@ public extension View {
 
     /// Removes all views from the stack. Root view will be the new active view
     func popToRoot() {
-        if let router = NavigationManager.externalRouter { router.handlePopToRoot() }
+        if let router = NavigationManager.externalRouter { DispatchQueue.main.async { router.handlePopToRoot() } }
         else { NavigationManager.popToRoot() }
     }
 }

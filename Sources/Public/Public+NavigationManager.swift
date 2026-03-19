@@ -11,11 +11,10 @@
 
 import Foundation
 
-@MainActor
-public protocol ExternalNavigationRouter: AnyObject {
-    func handlePush(_ view: any NavigatableView, animation: TransitionAnimation)
-    func handlePop()
-    func handlePopToRoot()
+public protocol ExternalNavigationRouter: AnyObject, Sendable {
+    @MainActor func handlePush(_ view: any NavigatableView, animation: TransitionAnimation)
+    @MainActor func handlePop()
+    @MainActor func handlePopToRoot()
 }
 
 public extension NavigationManager {
