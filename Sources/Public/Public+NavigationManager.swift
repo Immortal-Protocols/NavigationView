@@ -20,4 +20,7 @@ public extension NavigationManager {
 
     /// Returns to a root view
     static func popToRoot() { performOperation(.removeAllExceptFirst) }
+
+    /// Pushes a view onto the navigation stack
+    static func push(_ view: some NavigatableView, animation: TransitionAnimation) { performOperation(.insert(view, animation)) }
 }
