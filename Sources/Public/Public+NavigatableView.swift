@@ -28,7 +28,11 @@ public extension NavigatableView {
 // MARK: - Presenting Views
 public extension NavigatableView {
     /// Pushes a new view. Stacks previous one
-    @discardableResult func push(with animation: TransitionAnimation) -> some NavigatableView { NavigationManager.performOperation(.insert(self, animation)); return self }
+    @discardableResult func push(with animation: TransitionAnimation) -> some NavigatableView {
+        if let router = NavigationManager.externalRouter { router.handlePush(self, animation: animation) }
+        else { NavigationManager.performOperation(.insert(self, animation)) }
+        return self
+    }
 
     /// Sets the selected view as the new navigation root
     @discardableResult func setAsNewRoot() -> some NavigatableView { NavigationManager.replaceRoot(self); return self }

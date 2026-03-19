@@ -11,6 +11,13 @@
 
 import Foundation
 
+@MainActor
+public protocol ExternalNavigationRouter: AnyObject {
+    func handlePush(_ view: any NavigatableView, animation: TransitionAnimation)
+    func handlePop()
+    func handlePopToRoot()
+}
+
 public extension NavigationManager {
     /// Returns to a previous view on the stack
     static func pop() { performOperation(.removeLast) }

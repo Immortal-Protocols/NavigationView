@@ -17,6 +17,8 @@ public class NavigationManager: ObservableObject {
     private(set) var transitionAnimation: TransitionAnimation = .no
     private(set) var navigationBackGesture: NavigationBackGesture.Kind = .no
 
+    public static weak var externalRouter: (any ExternalNavigationRouter)?
+
     static let shared: NavigationManager = .init()
     private init() {}
 }

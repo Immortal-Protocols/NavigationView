@@ -13,13 +13,19 @@ import SwiftUI
 // MARK: - Removing Views From Stack
 public extension View {
     /// Removes the presented view from the stack
-    func pop() { NavigationManager.pop() }
+    func pop() {
+        if let router = NavigationManager.externalRouter { router.handlePop() }
+        else { NavigationManager.pop() }
+    }
 
     /// Removes all views up to the selected view in the stack. The view from the argument will be the new active view
     func pop<N: NavigatableView>(to view: N.Type) { NavigationManager.pop(to: view) }
 
     /// Removes all views from the stack. Root view will be the new active view
-    func popToRoot() { NavigationManager.popToRoot() }
+    func popToRoot() {
+        if let router = NavigationManager.externalRouter { router.handlePopToRoot() }
+        else { NavigationManager.popToRoot() }
+    }
 }
 
 // MARK: - Actions

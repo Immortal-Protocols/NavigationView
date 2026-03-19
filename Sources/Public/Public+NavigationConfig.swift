@@ -27,5 +27,5 @@ public struct NavigationConfig: Configurable {
     public init() {}
     private(set) var ignoredSafeAreas: (regions: SafeAreaRegions, edges: SafeAreaEdges)? = nil
     private(set) var backgroundColour: Color? = nil
-    private(set) var navigationBackGesture: NavigationBackGesture.Kind = .no
+    public private(set) var navigationBackGesture: NavigationBackGesture.Kind = .no
 }
